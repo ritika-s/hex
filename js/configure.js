@@ -2,19 +2,26 @@
 //var d: Direction = Directions.Left;
 
 //Canvas 
-
 var canvas = document.createElement("canvas");
 var ctx = canvas.getContext("2d");
-canvas.width = 500;
-canvas.height = 500;
+canvas.width = 512;
+canvas.height = 480;
 document.body.appendChild(canvas);
+
+// Background image
+var bgImage = new Image();
+bgImage.src = "images/background.png";
+bgImage.onload = function () {
+    console.log("onload");
+    ctx.drawImage(bgImage, 0, 0);
+};
 
 var hexReady = false;
 var hexImage = new Image();
 hexImage.onload = function () {
 	hexReady = true;
+    console.log("onload hex");
 };
-
 hexImage.src = "images/hero.png";
 size=22.01;
 
@@ -27,17 +34,15 @@ var Hex = function(direction,shade,position) {
 //	console.log("Hex created. direction - "+direction+". shade - "+shade+". x - "+self.posx+". y - "+self.posy);	
 }
 
-//var destination = {
-//	posx: 100;
-//	posy:100;
-//};
 
-	// Hex image
+// Hex image
 Hex.prototype.show = function(){
  	console.log("image"+hexImage.src+". x-"+this.posx +". y-"+ this.posy);
- 	console.log(hexReady);
+    console.log(bgImage.src);
+    
  	if (hexReady) {
  		canvas.width = canvas.width;
+        ctx.drawImage(bgImage, 0,0);
  		ctx.drawImage(hexImage, this.posx, this.posy);
 	}
 };
@@ -65,20 +70,9 @@ Hex.prototype.move = function() {
 		this.posx += Math.sqrt(3)*size/2;
 		this.posy += 1.5*size;
 	}
-	console.log("in move");
-	// // Are they touching?
-	// if (
-	// 	this.posx <= (destination.posx + 32)
-	// 	&& destination.posx <= (this.posx + 32)
-	// 	&& this.posy <= (destination.posy + 32)
-	// 	&& destination.posy <= (this.posy + 32)
-	// ) {
-	// 	console.log("Hex reached destination");
-	//	//reset();
-	//}
 };
 
-var myhex =new Hex("Right","Blue",[40,55]);
+var myhex =new Hex("Right","Blue",[157,156]);
 
 myFunction = function(){
 	myhex.move();
