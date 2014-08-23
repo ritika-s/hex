@@ -57,15 +57,15 @@ Hex.prototype.move = function() {
 	if (this.direction == "Right") { // Hex direction is Right
 		this.posx += Math.sqrt(3)*size;
 	}
-	if (this.direction == "DownRight") { // Hex direction is DownRight
+	if (this.direction == "DownLeft") { // Hex direction is DownRight
 		this.posx -= Math.sqrt(3)*size/2;
 		this.posy += 1.5*size;
 	}
-	if (this.direction == "DownLeft") { // Hex direction is DownLeft
+	if (this.direction == "DownRight") { // Hex direction is DownLeft
 		this.posx += Math.sqrt(3)*size/2;
 		this.posy += 1.5*size;
 	}
-	console.log("in move");
+	//console.log("in move");
 	// // Are they touching?
 	// if (
 	// 	this.posx <= (destination.posx + 32)
@@ -78,11 +78,14 @@ Hex.prototype.move = function() {
 	//}
 };
 
-var myhex =new Hex("Right","Blue",[40,55]);
+var myhex =new Hex("DownRight","Blue",[10,10]);
+var hex2 =new Hex("Left","Red",[40,40]);
+
 
 myFunction = function(){
 	myhex.move();
 	myhex.show();
+	hex2.show();
 };
 // list of hexes, history, 
 // function Map (){}
