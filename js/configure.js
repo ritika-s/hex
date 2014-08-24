@@ -19,7 +19,7 @@ bgImage.onload = function () {
 size=22.01;
 
 //Hex class
-var Hex = function(id, direction,shade,position) {
+var Hex = function(id,direction,shade,position) {
     this.id = id;
 	this.direction=direction;
 	this.shade=shade;
@@ -28,13 +28,14 @@ var Hex = function(id, direction,shade,position) {
     
     this.div = document.createElement("div");
     this.div.setAttribute("id", id);
-    this.div.setAttribute("onclick", "move(this, null)");
+    this.div.setAttribute("class", "hexagon_"+this.shade);
+    this.div.setAttribute("onclick", "move(this)");
     
-    this.hexImage = new Image();
-    this.hexImage.src = "images/hero.png";
+    //this.hexImage = new Image();
+    //this.hexImage.src = "images/hero.png";
     
     document.body.insertBefore(this.div, canvas);
-    document.getElementById(id).appendChild(this.hexImage);
+    //document.getElementById(id).appendChild(this.hexImage);
 }
 
 // Hex image
@@ -47,7 +48,7 @@ show = function(hex){
 move = function(elm, dirn) {
     hex = hexArr[elm.id-1];
     direction = hex.direction;
-    if (dirn) {direction = dirn};
+    if (typeof dirn != 'undefined') {direction = dirn};
     console.log(direction);
     if (direction == "Left")       { hex.posx -= Math.sqrt(3)*size; }
 	if (direction == "TopLeft")    { hex.posx -= Math.sqrt(3)*size/2; hex.posy -= 1.5*size; }
@@ -57,17 +58,17 @@ move = function(elm, dirn) {
     if (direction == "DownLeft")   { hex.posx -= Math.sqrt(3)*size/2; hex.posy += 1.5*size; }
     push = null;
     for (i = 0; i<arrayLength; i++) {
-        if (hexArr[i].posx == hex.posx && hexArr[i].posy == hex.posy && hexArr[i].id!=hex.id) {
+        if (Math.abs(hexArr[i].posx - hex.posx)<0.1 && Math.abs(hexArr[i].posy - hex.posy)<0.1 && hexArr[i].id!=hex.id) {
             push = hexArr[i]; break;
     }}
     show(hex);
-    if (push) {move(push.div, direction);} 
+    if (push) {move(push.div, direction);}
 };
 
 var hexArr = [];
-var myhex1 =new Hex(1,"Left","Blue",[165,162.5]);
-var myhex2 =new Hex(2,"TopRight","Blue",[165-Math.sqrt(3)*size,162.5+3*size]);
-var myhex3 =new Hex(3,"Right","Blue",[165-3*Math.sqrt(3)*size,162.5]);
+var myhex1 =new Hex(1,"Left",1,[165.5,161.4]);
+var myhex2 =new Hex(2,"TopRight",2,[165.5-Math.sqrt(3)*size,161.4+3*size]);
+var myhex3 =new Hex(3,"Right",3,[165.5-3*Math.sqrt(3)*size,161.4]);
 
 hexArr.push(myhex1);
 hexArr.push(myhex2);
