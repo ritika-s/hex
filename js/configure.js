@@ -64,28 +64,19 @@ move = function(elm, dirn) {
         if (Math.abs(hexArr[i].posx - hex.posx)<0.1 && Math.abs(hexArr[i].posy - hex.posy)<0.1 && hexArr[i].id!=hex.id) {
             push = hexArr[i]; break;   
     }}
-    for (i = 0; i<dirLength; i++) {
-        if (Math.abs(dirArr[i].posx - hex.posx)<0.1 && Math.abs(dirArr[i].posy - hex.posy)<0.1) {
-            update(hex, null, dirArr[i].direction); break;
-    }}
-
-    for (i = 0; i<ccarrayLength; i++) {
-        if (Math.abs(ccArr[i].posx - hex.posx)<0.1 && Math.abs(ccArr[i].posy - hex.posy)<0.1 ) {
-            update(hex,ccArr[i].shade,null); break;
+    for (i = 0; i<changersLength; i++) {
+        if (Math.abs(changerArr[i].posx - hex.posx)<0.1 && Math.abs(changerArr[i].posy - hex.posy)<0.1) {
+            update(hex, changerArr[i].direction, changerArr[i].shade); break;
     }}
 
     show(hex);
     if (push) {move(push.div, direction);}
 
-    // for (i = 0; i<hexarrayLength; i++) {
-    //     console.log("Hex: "+hexArr[i].id+". Shade:"+hexArr[i].shade+". Direction:"+hexArr[i].direction);
-    // }
 
 };
 
-
 // Update function
-update = function(hex, shade, direction) {
+update = function(hex, direction, shade) {
     if (shade)        {hex.shade = shade};
     if (direction)    {hex.direction = direction};
     document.getElementById(hex.id).className = "hexagon_"+hex.shade+"_"+hex.direction;
@@ -109,41 +100,54 @@ var Dir_changer = function(id,direction,position){
     }
 }
 
-
 //Color Changer
 var ColorChanger = function(id,shade,position) {
     this.id=id;
     this.shade=shade;
     this.posx=position[0];
     this.posy=position[1];
+
     this.div = document.createElement("div");
     this.div.setAttribute("id", id);
-    this.div.setAttribute("class", "cchanger hexagon--color-"+this.shade);
+    this.div.setAttribute("class", "cchanger");
     document.body.insertBefore(this.div, canvas);
+    for (i = 0; i<6; i++) {
+        tmp = document.createElement("div");
+        tmp.setAttribute("class", "triangle");
+        this.div.appendChild(tmp)
+    }
 }
 
+var Changer = function(id,direction,shade,position) {
+    this.id=id;
+    this.direction=direction;
+    this.shade=shade;
+    this.posx=position[0];
+    this.posy=position[1];
 
-var dirArr = [];
-var dir1 = new Dir_changer('d1',2,[166.3-2*Math.sqrt(3)*size,162.5]);
-var dir2 = new Dir_changer('d2',4,[166.3,162.5-3*size]);
-dirArr.push(dir1);
-dirArr.push(dir2);
-
-var dirLength = dirArr.length;
-for (i = 0; i<dirLength; i++) {
-    show(dirArr[i]);
+    this.div = document.createElement("div");
+    this.div.setAttribute("id", id);
+    if (direction==null && shade!=null){this.div.setAttribute("class", "cchanger");}
+    if (direction!=null && shade==null){this.div.setAttribute("class", "direction_"+this.direction);}
+    document.body.insertBefore(this.div, canvas);
+    for (i = 0; i<6; i++) {
+        tmp = document.createElement("div");
+        tmp.setAttribute("class", "triangle");
+        this.div.appendChild(tmp)
+    }
 }
 
-var ccArr = [];
-var cc1 =new ColorChanger(4,1,[166.3-2.5*Math.sqrt(3)*size,162.5-1.5*size])
+var changerArr = [];
+var dir1 = new Changer('d1',2,null,[166.3-2*Math.sqrt(3)*size,162.5]);
+changerArr.push(dir1);
+var dir2 = new Changer('d2',4,null,[166.3,162.5-3*size]);
+changerArr.push(dir2);
+var cc1 =new Changer(4,null,1,[166.3-2.5*Math.sqrt(3)*size,162.5-1.5*size])
+changerArr.push(cc1);
 
-var cc2 =new ColorChanger(5,2,[172.3+Math.sqrt(3)*2*size,162.5])
-ccArr.push(cc1);
-ccArr.push(cc2);
-
-var ccarrayLength = ccArr.length;
-for (i = 0; i<ccarrayLength; i++) {
-    show(ccArr[i]);}
+var changersLength = changerArr.length;
+for (i = 0; i<changersLength; i++) {
+    show(changerArr[i]);}
 
 // Initialize Hex array
 // Hex(id,direction,shade,position)

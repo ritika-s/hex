@@ -1,9 +1,7 @@
-.hexagon--color-1 { background-color: #F16745; }
-.hexagon--color-2 { background-color: #FFC65D; }
-.hexagon--color-3 { background-color: #7BC8A4; }
-.hexagon--color-4 { background-color: #4CC3D9; }
-.hexagon--color-5 { background-color: #93648D; }
-.hexagon--color-6 { background-color: #404040; }
+/*.body{
+  background-image: url("images/bg.png");
+  background-repeat: repeat-x repeat-y;
+}*/
 
 .hexagon_1_1 {
   height: 28px;
@@ -1301,7 +1299,6 @@
   border-color: black transparent;
 }
 
-<<<<<<< HEAD
 /* All direction changers defined below */
 
 .direction_1 {
@@ -1519,34 +1516,36 @@
 .direction_6 .triangle:nth-child(6) {
   border-color: #bfbfbf transparent;
 }
-=======
-.hexagon::after {
-  transform: rotateZ(-60deg);
-}
 
 .cchanger {
-    display: inline-block;
-    vertical-align: middle;
-    position: relative;
-    width: calc(32px*0.57735);
-    height: 32px;
+  height: 28px;
+  width: 32px;
+  position: relative;
+  margin: 0 auto;
+  transform-origin: 0 0;
+  transform: translateX(16px) rotate(30deg);
 }
-.cchanger::before,
-.cchanger::after {
-  content: '';
+.cchanger .triangle {
   position: absolute;
-  left: 0; right: 0; top: 0; bottom: 0;
-  background-color: inherit;
-  opacity: inherit;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 14px 8px 0;
+  border-color: #F16745 transparent;
+  transform-origin: 8px 14px;
 }
-.cchanger {
-  transform: rotateZ(90deg);
+.cchanger .triangle:nth-child(1) {
+  transform: rotate(60deg);
 }
-.cchanger::before {
-  transform: rotateZ(60deg);
+.cchanger .triangle:nth-child(2) {
+  transform: rotate(120deg);
 }
-.cchanger::after {
-  transform: rotateZ(-60deg);
+.cchanger .triangle:nth-child(3) {
+  transform: rotate(180deg);
 }
-
->>>>>>> rs
+.cchanger .triangle:nth-child(4) {
+  transform: rotate(240deg);
+}
+.cchanger .triangle:nth-child(5) {
+  transform: rotate(300deg);
+}
