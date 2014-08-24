@@ -31,3 +31,29 @@
 .hexagon::after {
   transform: rotateZ(-60deg);
 }
+
+.cchanger {
+    display: inline-block;
+    vertical-align: middle;
+    position: relative;
+    width: calc(32px*0.57735);
+    height: 32px;
+}
+.cchanger::before,
+.cchanger::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0; top: 0; bottom: 0;
+  background-color: inherit;
+  opacity: inherit;
+}
+.cchanger {
+  transform: rotateZ(90deg);
+}
+.cchanger::before {
+  transform: rotateZ(60deg);
+}
+.cchanger::after {
+  transform: rotateZ(-60deg);
+}
+
