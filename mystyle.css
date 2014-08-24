@@ -1,3 +1,10 @@
+.hexagon--color-1 { background-color: #F16745; }
+.hexagon--color-2 { background-color: #FFC65D; }
+.hexagon--color-3 { background-color: #7BC8A4; }
+.hexagon--color-4 { background-color: #4CC3D9; }
+.hexagon--color-5 { background-color: #93648D; }
+.hexagon--color-6 { background-color: #404040; }
+
 .hexagon_1_1 {
   height: 28px;
   width: 32px;
@@ -1294,6 +1301,7 @@
   border-color: black transparent;
 }
 
+<<<<<<< HEAD
 /* All direction changers defined below */
 
 .direction_1 {
@@ -1511,3 +1519,34 @@
 .direction_6 .triangle:nth-child(6) {
   border-color: #bfbfbf transparent;
 }
+=======
+.hexagon::after {
+  transform: rotateZ(-60deg);
+}
+
+.cchanger {
+    display: inline-block;
+    vertical-align: middle;
+    position: relative;
+    width: calc(32px*0.57735);
+    height: 32px;
+}
+.cchanger::before,
+.cchanger::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0; top: 0; bottom: 0;
+  background-color: inherit;
+  opacity: inherit;
+}
+.cchanger {
+  transform: rotateZ(90deg);
+}
+.cchanger::before {
+  transform: rotateZ(60deg);
+}
+.cchanger::after {
+  transform: rotateZ(-60deg);
+}
+
+>>>>>>> rs

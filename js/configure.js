@@ -16,7 +16,7 @@ bgImage.onload = function () {
     ctx.drawImage(bgImage, 0, 0);
 };
 
-size=22.01;
+size=21.95;
 
 //Hex class
 var Hex = function(id,direction,shade,position) {
@@ -25,11 +25,10 @@ var Hex = function(id,direction,shade,position) {
 	this.shade=shade;
 	this.posx=position[0];
 	this.posy=position[1];
-    
     this.div = document.createElement("div");
     this.div.setAttribute("id", id);
     this.div.setAttribute("class", "hexagon_"+this.shade+"_"+this.direction);
-    //this.div.innerHTML = "&#8598;";
+
     this.div.setAttribute("onclick", "move(this)");
     document.body.insertBefore(this.div, canvas);
     
@@ -61,19 +60,31 @@ move = function(elm, dirn) {
 	if (direction == 5)  { hex.posx += Math.sqrt(3)*size/2; hex.posy += 1.5*size; }
     if (direction == 6)  { hex.posx -= Math.sqrt(3)*size/2; hex.posy += 1.5*size; }
     push = null;
-    for (i = 0; i<arrayLength; i++) {
+    for (i = 0; i<hexarrayLength; i++) {
         if (Math.abs(hexArr[i].posx - hex.posx)<0.1 && Math.abs(hexArr[i].posy - hex.posy)<0.1 && hexArr[i].id!=hex.id) {
-            push = hexArr[i]; break;
+            push = hexArr[i]; break;   
     }}
     for (i = 0; i<dirLength; i++) {
         if (Math.abs(dirArr[i].posx - hex.posx)<0.1 && Math.abs(dirArr[i].posy - hex.posy)<0.1) {
             update(hex, null, dirArr[i].direction); break;
     }}
+
+    for (i = 0; i<ccarrayLength; i++) {
+        if (Math.abs(ccArr[i].posx - hex.posx)<0.1 && Math.abs(ccArr[i].posy - hex.posy)<0.1 ) {
+            update(hex,ccArr[i].shade,null); break;
+    }}
+
     show(hex);
     if (push) {move(push.div, direction);}
+
+    // for (i = 0; i<hexarrayLength; i++) {
+    //     console.log("Hex: "+hexArr[i].id+". Shade:"+hexArr[i].shade+". Direction:"+hexArr[i].direction);
+    // }
+
 };
 
-// color function
+
+// Update function
 update = function(hex, shade, direction) {
     if (shade)        {hex.shade = shade};
     if (direction)    {hex.direction = direction};
@@ -98,6 +109,20 @@ var Dir_changer = function(id,direction,position){
     }
 }
 
+
+//Color Changer
+var ColorChanger = function(id,shade,position) {
+    this.id=id;
+    this.shade=shade;
+    this.posx=position[0];
+    this.posy=position[1];
+    this.div = document.createElement("div");
+    this.div.setAttribute("id", id);
+    this.div.setAttribute("class", "cchanger hexagon--color-"+this.shade);
+    document.body.insertBefore(this.div, canvas);
+}
+
+
 var dirArr = [];
 var dir1 = new Dir_changer('d1',2,[166.3-2*Math.sqrt(3)*size,162.5]);
 var dir2 = new Dir_changer('d2',4,[166.3,162.5-3*size]);
@@ -109,17 +134,27 @@ for (i = 0; i<dirLength; i++) {
     show(dirArr[i]);
 }
 
+var ccArr = [];
+var cc1 =new ColorChanger(4,1,[166.3-2.5*Math.sqrt(3)*size,162.5-1.5*size])
+
+var cc2 =new ColorChanger(5,2,[172.3+Math.sqrt(3)*2*size,162.5])
+ccArr.push(cc1);
+ccArr.push(cc2);
+
+var ccarrayLength = ccArr.length;
+for (i = 0; i<ccarrayLength; i++) {
+    show(ccArr[i]);}
+
 // Initialize Hex array
 // Hex(id,direction,shade,position)
 var hexArr = [];
 var myhex1 = new Hex(1,1,1,[166.3,162.5]);
 var myhex2 = new Hex(2,3,2,[166.3-Math.sqrt(3)*size,162.5+3*size]);
 var myhex3 = new Hex(3,4,3,[166.3-3*Math.sqrt(3)*size,162.5]);
+
 hexArr.push(myhex1);
 hexArr.push(myhex2);
 hexArr.push(myhex3);
 
-var arrayLength = hexArr.length;
-for (i = 0; i<arrayLength; i++) {
-    show(hexArr[i]);
-}
+var hexarrayLength = hexArr.length;
+for (i = 0; i<hexarrayLength; i++) { show(hexArr[i]);}
