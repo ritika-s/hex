@@ -28,51 +28,93 @@ var Hex = function(id,direction,shade,position) {
     
     this.div = document.createElement("div");
     this.div.setAttribute("id", id);
-    this.div.setAttribute("class", "hexagon hexagon--color-"+this.shade);
+    this.div.setAttribute("class", "hexagon_"+this.shade+"_"+this.direction);
     //this.div.innerHTML = "&#8598;";
-    this.div.setAttribute("onclick", "color(this)");
-    
+    this.div.setAttribute("onclick", "move(this)");
     document.body.insertBefore(this.div, canvas);
+    
+    for (i = 0; i<6; i++) {
+        tmp = document.createElement("div");
+        tmp.setAttribute("class", "triangle");
+        this.div.appendChild(tmp)
+    }
 }
 
-// Hex image
-show = function(hex){
-    document.getElementById(hex.id).style.position="fixed";
-    document.getElementById(hex.id).style.left=hex.posx + "px";
-    document.getElementById(hex.id).style.top=hex.posy + "px";
+// show function
+show = function(obj){
+    console.log(obj.id + " " + obj.posx + " " + obj.posy);
+    document.getElementById(obj.id).style.position="fixed";
+    document.getElementById(obj.id).style.left=obj.posx + "px";
+    document.getElementById(obj.id).style.top=obj.posy + "px";
 };
 
+// move function
 move = function(elm, dirn) {
     hex = hexArr[elm.id-1];
+    console.log(elm.id);
     direction = hex.direction;
     if (typeof dirn != 'undefined') {direction = dirn};
-    if (direction == "Left")       { hex.posx -= Math.sqrt(3)*size; }
-	if (direction == "TopLeft")    { hex.posx -= Math.sqrt(3)*size/2; hex.posy -= 1.5*size; }
-	if (direction == "TopRight")   { hex.posx += Math.sqrt(3)*size/2; hex.posy -= 1.5*size; }
-	if (direction == "Right")      { hex.posx += Math.sqrt(3)*size; }
-	if (direction == "DownRight")  { hex.posx += Math.sqrt(3)*size/2; hex.posy += 1.5*size; }
-    if (direction == "DownLeft")   { hex.posx -= Math.sqrt(3)*size/2; hex.posy += 1.5*size; }
+    if (direction == 1)  { hex.posx -= Math.sqrt(3)*size; }
+	if (direction == 2)  { hex.posx -= Math.sqrt(3)*size/2; hex.posy -= 1.5*size; }
+	if (direction == 3)  { hex.posx += Math.sqrt(3)*size/2; hex.posy -= 1.5*size; }
+	if (direction == 4)  { hex.posx += Math.sqrt(3)*size; }
+	if (direction == 5)  { hex.posx += Math.sqrt(3)*size/2; hex.posy += 1.5*size; }
+    if (direction == 6)  { hex.posx -= Math.sqrt(3)*size/2; hex.posy += 1.5*size; }
     push = null;
     for (i = 0; i<arrayLength; i++) {
         if (Math.abs(hexArr[i].posx - hex.posx)<0.1 && Math.abs(hexArr[i].posy - hex.posy)<0.1 && hexArr[i].id!=hex.id) {
             push = hexArr[i]; break;
     }}
+    for (i = 0; i<dirLength; i++) {
+        if (Math.abs(dirArr[i].posx - hex.posx)<0.1 && Math.abs(dirArr[i].posy - hex.posy)<0.1) {
+            update(hex, null, dirArr[i].direction); break;
+    }}
     show(hex);
     if (push) {move(push.div, direction);}
 };
 
-color = function(elm) {
-    hex = hexArr[elm.id-1];
-    hex.shade = hex.shade % 6;
-    document.getElementById(hex.id).className = "hexagon hexagon--color-"+(hex.shade+1);
-    hex.shade = hex.shade+1;
+// color function
+update = function(hex, shade, direction) {
+    if (shade)        {hex.shade = shade};
+    if (direction)    {hex.direction = direction};
+    document.getElementById(hex.id).className = "hexagon_"+hex.shade+"_"+hex.direction;
 };
 
-var hexArr = [];
-var myhex1 =new Hex(1,"Left",1,[172.3,162.5]);
-var myhex2 =new Hex(2,"TopRight",2,[172.3-Math.sqrt(3)*size,162.5+3*size]);
-var myhex3 =new Hex(3,"Right",3,[172.3-3*Math.sqrt(3)*size,162.5]);
+// direction changer function
+var Dir_changer = function(id,direction,position){
+    this.id = id;
+    this.direction = direction;
+    this.posx = position[0];
+    this.posy = position[1];
+    
+    this.div = document.createElement("div");
+    this.div.setAttribute("id", id);
+    this.div.setAttribute("class", "direction_"+this.direction);
+    document.body.insertBefore(this.div, canvas);
+    for (i = 0; i<6; i++) {
+        tmp = document.createElement("div");
+        tmp.setAttribute("class", "triangle");
+        this.div.appendChild(tmp)
+    }
+}
 
+var dirArr = [];
+var dir1 = new Dir_changer('d1',2,[166.3-2*Math.sqrt(3)*size,162.5]);
+var dir2 = new Dir_changer('d2',4,[166.3,162.5-3*size]);
+dirArr.push(dir1);
+dirArr.push(dir2);
+
+var dirLength = dirArr.length;
+for (i = 0; i<dirLength; i++) {
+    show(dirArr[i]);
+}
+
+// Initialize Hex array
+// Hex(id,direction,shade,position)
+var hexArr = [];
+var myhex1 = new Hex(1,1,1,[166.3,162.5]);
+var myhex2 = new Hex(2,3,2,[166.3-Math.sqrt(3)*size,162.5+3*size]);
+var myhex3 = new Hex(3,4,3,[166.3-3*Math.sqrt(3)*size,162.5]);
 hexArr.push(myhex1);
 hexArr.push(myhex2);
 hexArr.push(myhex3);
