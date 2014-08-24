@@ -13,7 +13,7 @@ var bgImage = new Image();
 bgImage.src = "images/background.png";
 bgImage.onload = function () {
     console.log("onload");
-    ctx.drawImage(bgImage, 0, 0);
+   // ctx.drawImage(bgImage, 0, 0);
 };
 
 var hexReady = false;
