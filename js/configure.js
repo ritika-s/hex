@@ -28,14 +28,11 @@ var Hex = function(id,direction,shade,position) {
     
     this.div = document.createElement("div");
     this.div.setAttribute("id", id);
-    this.div.setAttribute("class", "hexagon_"+this.shade);
-    this.div.setAttribute("onclick", "move(this)");
-    
-    //this.hexImage = new Image();
-    //this.hexImage.src = "images/hero.png";
+    this.div.setAttribute("class", "hexagon hexagon--color-"+this.shade);
+    //this.div.innerHTML = "&#8598;";
+    this.div.setAttribute("onclick", "color(this)");
     
     document.body.insertBefore(this.div, canvas);
-    //document.getElementById(id).appendChild(this.hexImage);
 }
 
 // Hex image
@@ -49,7 +46,6 @@ move = function(elm, dirn) {
     hex = hexArr[elm.id-1];
     direction = hex.direction;
     if (typeof dirn != 'undefined') {direction = dirn};
-    console.log(direction);
     if (direction == "Left")       { hex.posx -= Math.sqrt(3)*size; }
 	if (direction == "TopLeft")    { hex.posx -= Math.sqrt(3)*size/2; hex.posy -= 1.5*size; }
 	if (direction == "TopRight")   { hex.posx += Math.sqrt(3)*size/2; hex.posy -= 1.5*size; }
@@ -65,10 +61,17 @@ move = function(elm, dirn) {
     if (push) {move(push.div, direction);}
 };
 
+color = function(elm) {
+    hex = hexArr[elm.id-1];
+    hex.shade = hex.shade % 6;
+    document.getElementById(hex.id).className = "hexagon hexagon--color-"+(hex.shade+1);
+    hex.shade = hex.shade+1;
+};
+
 var hexArr = [];
-var myhex1 =new Hex(1,"Left",1,[165.5,161.4]);
-var myhex2 =new Hex(2,"TopRight",2,[165.5-Math.sqrt(3)*size,161.4+3*size]);
-var myhex3 =new Hex(3,"Right",3,[165.5-3*Math.sqrt(3)*size,161.4]);
+var myhex1 =new Hex(1,"Left",1,[172.3,162.5]);
+var myhex2 =new Hex(2,"TopRight",2,[172.3-Math.sqrt(3)*size,162.5+3*size]);
+var myhex3 =new Hex(3,"Right",3,[172.3-3*Math.sqrt(3)*size,162.5]);
 
 hexArr.push(myhex1);
 hexArr.push(myhex2);
