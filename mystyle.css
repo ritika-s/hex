@@ -1,111 +1,33 @@
-.hexagon_1{
-  position: relative;
-  width: 32px; 
-  height: 18.48px;
-  background-color: #F16745;
-  margin: 9.24px 0;
-}
 
-.hexagon_1:before,
-.hexagon_1:after {
-  content: "";
+.hexagon--color-1 { background-color: #F16745; }
+.hexagon--color-2 { background-color: #FFC65D; }
+.hexagon--color-3 { background-color: #7BC8A4; }
+.hexagon--color-4 { background-color: #4CC3D9; }
+.hexagon--color-5 { background-color: #93648D; }
+.hexagon--color-6 { background-color: #404040; }
+
+.hexagon {
+    display: inline-block;
+    vertical-align: middle;
+    position: relative;
+    width: calc(32px*0.57735);
+    height: 32px;
+}
+.hexagon::before,
+.hexagon::after {
+  content: '';
   position: absolute;
-  width: 0;
-  border-left: 16px solid transparent;
-  border-right: 16px solid transparent;
+  left: 0; right: 0; top: 0; bottom: 0;
+  background-color: inherit;
+  opacity: inherit;
+}
+.hexagon {
+  transform: rotateZ(90deg);
+}
+.hexagon::before {
+  transform: rotateZ(60deg);
 }
 
-.hexagon_1:before {
-  bottom: 100%;
-  border-bottom: 9.24px solid #F16745;
-}
-
-.hexagon_1:after {
-  top: 100%;
-  width: 0;
-  border-top: 9.24px solid #F16745;
-}
-
-.hexagon_2{
-  position: relative;
-  width: 32px; 
-  height: 18.48px;
-  background-color: #FFC65D;
-  margin: 9.24px 0;
-}
-
-.hexagon_2:before,
-.hexagon_2:after {
-  content: "";
-  position: absolute;
-  width: 0;
-  border-left: 16px solid transparent;
-  border-right: 16px solid transparent;
-}
-
-.hexagon_2:before {
-  bottom: 100%;
-  border-bottom: 9.24px solid #FFC65D;
-}
-
-.hexagon_2:after {
-  top: 100%;
-  width: 0;
-  border-top: 9.24px solid #FFC65D;
-}
-
-.hexagon_3{
-  position: relative;
-  width: 32px; 
-  height: 18.48px;
-  background-color: #7BC8A4;
-  margin: 9.24px 0;
-}
-
-.hexagon_3:before,
-.hexagon_3:after {
-  content: "";
-  position: absolute;
-  width: 0;
-  border-left: 16px solid transparent;
-  border-right: 16px solid transparent;
-}
-
-.hexagon_3:before {
-  bottom: 100%;
-  border-bottom: 9.24px solid #7BC8A4;
-}
-
-.hexagon_3:after {
-  top: 100%;
-  width: 0;
-  border-top: 9.24px solid #7BC8A4;
-}
-
-.hexagon_4{
-  position: relative;
-  width: 32px; 
-  height: 18.48px;
-  background-color: #4CC3D9;
-  margin: 9.24px 0;
-}
-
-.hexagon_4:before,
-.hexagon_4:after {
-  content: "";
-  position: absolute;
-  width: 0;
-  border-left: 16px solid transparent;
-  border-right: 16px solid transparent;
-}
-
-.hexagon_4:before {
-  bottom: 100%;
-  border-bottom: 9.24px solid #4CC3D9;
-}
-
-.hexagon_4:after {
-  top: 100%;
-  width: 0;
-  border-top: 9.24px solid #4CC3D9;
+.hexagon::after {
+  transform: rotateZ(-60deg);
 }
