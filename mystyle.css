@@ -1,3 +1,8 @@
+/*.body{
+  background-image: url("images/bg.png");
+  background-repeat: repeat-x repeat-y;
+}*/
+
 .hexagon_1_1 {
   height: 28px;
   width: 32px;
@@ -1510,4 +1515,37 @@
 }
 .direction_6 .triangle:nth-child(6) {
   border-color: #bfbfbf transparent;
+}
+
+.cchanger {
+  height: 28px;
+  width: 32px;
+  position: relative;
+  margin: 0 auto;
+  transform-origin: 0 0;
+  transform: translateX(16px) rotate(30deg);
+}
+.cchanger .triangle {
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 14px 8px 0;
+  border-color: #F16745 transparent;
+  transform-origin: 8px 14px;
+}
+.cchanger .triangle:nth-child(1) {
+  transform: rotate(60deg);
+}
+.cchanger .triangle:nth-child(2) {
+  transform: rotate(120deg);
+}
+.cchanger .triangle:nth-child(3) {
+  transform: rotate(180deg);
+}
+.cchanger .triangle:nth-child(4) {
+  transform: rotate(240deg);
+}
+.cchanger .triangle:nth-child(5) {
+  transform: rotate(300deg);
 }
