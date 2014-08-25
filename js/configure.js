@@ -16,15 +16,17 @@ bgImage.onload = function () {
     ctx.drawImage(bgImage, 0, 0);
 };
 
-size=21.95;
+var size = 21.95;
 
-//Hex class
+// Key classes ---------------------------------------------------------------------
+
+// Hex class
 var Hex = function(id,direction,shade,position) {
     this.id = id;
-	this.direction=direction;
-	this.shade=shade;
-	this.posx=position[0];
-	this.posy=position[1];
+    this.direction=direction;
+    this.shade=shade;
+    this.posx=position[0];
+    this.posy=position[1];
     this.div = document.createElement("div");
     this.div.setAttribute("id", id);
     this.div.setAttribute("class", "hexagon_"+this.shade+"_"+this.direction);
@@ -38,6 +40,28 @@ var Hex = function(id,direction,shade,position) {
         this.div.appendChild(tmp)
     }
 }
+
+// Changer class
+var Changer = function(id,direction,shade,position) {
+    this.id=id;
+    this.direction=direction;
+    this.shade=shade;
+    this.posx=position[0];
+    this.posy=position[1];
+
+    this.div = document.createElement("div");
+    this.div.setAttribute("id", id);
+    if (direction==null && shade!=null){this.div.setAttribute("class", "cchanger_"+this.shade);}
+    if (direction!=null && shade==null){this.div.setAttribute("class", "direction_"+this.direction);}
+    document.body.insertBefore(this.div, canvas);
+    for (i = 0; i<6; i++) {
+        tmp = document.createElement("div");
+        tmp.setAttribute("class", "triangle");
+        this.div.appendChild(tmp)
+    }
+}
+
+// Generic functions ---------------------------------------------------------------
 
 // show function
 show = function(obj){
@@ -54,11 +78,12 @@ move = function(elm, dirn) {
     direction = hex.direction;
     if (typeof dirn != 'undefined') {direction = dirn};
     if (direction == 1)  { hex.posx -= Math.sqrt(3)*size; }
-	if (direction == 2)  { hex.posx -= Math.sqrt(3)*size/2; hex.posy -= 1.5*size; }
-	if (direction == 3)  { hex.posx += Math.sqrt(3)*size/2; hex.posy -= 1.5*size; }
-	if (direction == 4)  { hex.posx += Math.sqrt(3)*size; }
-	if (direction == 5)  { hex.posx += Math.sqrt(3)*size/2; hex.posy += 1.5*size; }
+    if (direction == 2)  { hex.posx -= Math.sqrt(3)*size/2; hex.posy -= 1.5*size; }
+    if (direction == 3)  { hex.posx += Math.sqrt(3)*size/2; hex.posy -= 1.5*size; }
+    if (direction == 4)  { hex.posx += Math.sqrt(3)*size; }
+    if (direction == 5)  { hex.posx += Math.sqrt(3)*size/2; hex.posy += 1.5*size; }
     if (direction == 6)  { hex.posx -= Math.sqrt(3)*size/2; hex.posy += 1.5*size; }
+
     push = null;
     for (i = 0; i<hexarrayLength; i++) {
         if (Math.abs(hexArr[i].posx - hex.posx)<0.1 && Math.abs(hexArr[i].posy - hex.posy)<0.1 && hexArr[i].id!=hex.id) {
@@ -71,94 +96,41 @@ move = function(elm, dirn) {
 
     show(hex);
     if (push) {move(push.div, direction);}
-
-
 };
 
-// Update function
+// update function
 update = function(hex, direction, shade) {
     if (shade)        {hex.shade = shade};
     if (direction)    {hex.direction = direction};
     document.getElementById(hex.id).className = "hexagon_"+hex.shade+"_"+hex.direction;
 };
 
-// direction changer function
-var Dir_changer = function(id,direction,position){
-    this.id = id;
-    this.direction = direction;
-    this.posx = position[0];
-    this.posy = position[1];
-    
-    this.div = document.createElement("div");
-    this.div.setAttribute("id", id);
-    this.div.setAttribute("class", "direction_"+this.direction);
-    document.body.insertBefore(this.div, canvas);
-    for (i = 0; i<6; i++) {
-        tmp = document.createElement("div");
-        tmp.setAttribute("class", "triangle");
-        this.div.appendChild(tmp)
-    }
-}
+// Initialize class arrays ---------------------------------------------------------
 
-//Color Changer
-var ColorChanger = function(id,shade,position) {
-    this.id=id;
-    this.shade=shade;
-    this.posx=position[0];
-    this.posy=position[1];
+var anchor_x = 165.5;
+var anchor_y = 162.5;
 
-    this.div = document.createElement("div");
-    this.div.setAttribute("id", id);
-    this.div.setAttribute("class", "cchanger");
-    document.body.insertBefore(this.div, canvas);
-    for (i = 0; i<6; i++) {
-        tmp = document.createElement("div");
-        tmp.setAttribute("class", "triangle");
-        this.div.appendChild(tmp)
-    }
-}
-
-var Changer = function(id,direction,shade,position) {
-    this.id=id;
-    this.direction=direction;
-    this.shade=shade;
-    this.posx=position[0];
-    this.posy=position[1];
-
-    this.div = document.createElement("div");
-    this.div.setAttribute("id", id);
-    if (direction==null && shade!=null){this.div.setAttribute("class", "cchanger");}
-    if (direction!=null && shade==null){this.div.setAttribute("class", "direction_"+this.direction);}
-    document.body.insertBefore(this.div, canvas);
-    for (i = 0; i<6; i++) {
-        tmp = document.createElement("div");
-        tmp.setAttribute("class", "triangle");
-        this.div.appendChild(tmp)
-    }
-}
-
+// Initialize Changer array
 var changerArr = [];
-var dir1 = new Changer('d1',2,null,[166.3-2*Math.sqrt(3)*size,162.5]);
+var dir1 = new Changer('d1',2,null,[anchor_x-2*Math.sqrt(3)*size,anchor_y]);
+var dir2 = new Changer('d2',4,null,[anchor_x,anchor_y-3*size]);
+var cc1 =new Changer('c1',null,4,[anchor_x-2.5*Math.sqrt(3)*size,anchor_y-1.5*size])
+var cc2 =new Changer('c2',null,5,[anchor_x+0.5*Math.sqrt(3)*size,anchor_y-1.5*size])
 changerArr.push(dir1);
-var dir2 = new Changer('d2',4,null,[166.3,162.5-3*size]);
 changerArr.push(dir2);
-var cc1 =new Changer(4,null,1,[166.3-2.5*Math.sqrt(3)*size,162.5-1.5*size])
 changerArr.push(cc1);
-
+changerArr.push(cc2);
 var changersLength = changerArr.length;
-for (i = 0; i<changersLength; i++) {
-    show(changerArr[i]);}
+for (i = 0; i<changersLength; i++) {show(changerArr[i]);}
 
 // Initialize Hex array
-// Hex(id,direction,shade,position)
 var hexArr = [];
-var myhex1 = new Hex(1,1,1,[166.3,162.5]);
-var myhex2 = new Hex(2,3,2,[166.3-Math.sqrt(3)*size,162.5+3*size]);
-var myhex3 = new Hex(3,4,3,[166.3-3*Math.sqrt(3)*size,162.5]);
-
+var myhex1 = new Hex(1,1,1,[anchor_x+Math.sqrt(3)*size,anchor_y]);
+var myhex2 = new Hex(2,3,2,[anchor_x-Math.sqrt(3)*size,anchor_y+3*size]);
+var myhex3 = new Hex(3,4,3,[anchor_x-3*Math.sqrt(3)*size,anchor_y]);
 hexArr.push(myhex1);
 hexArr.push(myhex2);
 hexArr.push(myhex3);
-
 var hexarrayLength = hexArr.length;
 for (i = 0; i<hexarrayLength; i++) { show(hexArr[i]);}
+
