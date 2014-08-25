@@ -1517,7 +1517,8 @@
   border-color: #bfbfbf transparent;
 }
 
-.cchanger {
+
+.cchanger_1 {
   height: 28px;
   width: 32px;
   position: relative;
@@ -1525,7 +1526,7 @@
   transform-origin: 0 0;
   transform: translateX(16px) rotate(30deg);
 }
-.cchanger .triangle {
+.cchanger_1 .triangle {
   position: absolute;
   width: 0;
   height: 0;
@@ -1534,18 +1535,188 @@
   border-color: #F16745 transparent;
   transform-origin: 8px 14px;
 }
-.cchanger .triangle:nth-child(1) {
+.cchanger_1 .triangle:nth-child(1) {
   transform: rotate(60deg);
 }
-.cchanger .triangle:nth-child(2) {
+.cchanger_1 .triangle:nth-child(2) {
   transform: rotate(120deg);
 }
-.cchanger .triangle:nth-child(3) {
+.cchanger_1 .triangle:nth-child(3) {
   transform: rotate(180deg);
 }
-.cchanger .triangle:nth-child(4) {
+.cchanger_1 .triangle:nth-child(4) {
   transform: rotate(240deg);
 }
-.cchanger .triangle:nth-child(5) {
+.cchanger_1 .triangle:nth-child(5) {
+  transform: rotate(300deg);
+}
+
+
+.cchanger_2 {
+  height: 28px;
+  width: 32px;
+  position: relative;
+  margin: 0 auto;
+  transform-origin: 0 0;
+  transform: translateX(16px) rotate(30deg);
+}
+.cchanger_2 .triangle {
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 14px 8px 0;
+  border-color: #FFC65D transparent;
+  transform-origin: 8px 14px;
+}
+.cchanger_2 .triangle:nth-child(1) {
+  transform: rotate(60deg);
+}
+.cchanger_2 .triangle:nth-child(2) {
+  transform: rotate(120deg);
+}
+.cchanger_2 .triangle:nth-child(3) {
+  transform: rotate(180deg);
+}
+.cchanger_2 .triangle:nth-child(4) {
+  transform: rotate(240deg);
+}
+.cchanger_2 .triangle:nth-child(5) {
+  transform: rotate(300deg);
+}
+
+
+.cchanger_3 {
+  height: 28px;
+  width: 32px;
+  position: relative;
+  margin: 0 auto;
+  transform-origin: 0 0;
+  transform: translateX(16px) rotate(30deg);
+}
+.cchanger_3 .triangle {
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 14px 8px 0;
+  border-color: #7BC8A4 transparent;
+  transform-origin: 8px 14px;
+}
+.cchanger_3 .triangle:nth-child(1) {
+  transform: rotate(60deg);
+}
+.cchanger_3 .triangle:nth-child(2) {
+  transform: rotate(120deg);
+}
+.cchanger_3 .triangle:nth-child(3) {
+  transform: rotate(180deg);
+}
+.cchanger_3 .triangle:nth-child(4) {
+  transform: rotate(240deg);
+}
+.cchanger_3 .triangle:nth-child(5) {
+  transform: rotate(300deg);
+}
+
+
+.cchanger_4 {
+  height: 28px;
+  width: 32px;
+  position: relative;
+  margin: 0 auto;
+  transform-origin: 0 0;
+  transform: translateX(16px) rotate(30deg);
+}
+.cchanger_4 .triangle {
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 14px 8px 0;
+  border-color: #4CC3D9 transparent;
+  transform-origin: 8px 14px;
+}
+.cchanger_4 .triangle:nth-child(1) {
+  transform: rotate(60deg);
+}
+.cchanger_4 .triangle:nth-child(2) {
+  transform: rotate(120deg);
+}
+.cchanger_4 .triangle:nth-child(3) {
+  transform: rotate(180deg);
+}
+.cchanger_4 .triangle:nth-child(4) {
+  transform: rotate(240deg);
+}
+.cchanger_4 .triangle:nth-child(5) {
+  transform: rotate(300deg);
+}
+
+
+.cchanger_5 {
+  height: 28px;
+  width: 32px;
+  position: relative;
+  margin: 0 auto;
+  transform-origin: 0 0;
+  transform: translateX(16px) rotate(30deg);
+}
+.cchanger_5 .triangle {
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 14px 8px 0;
+  border-color: #93648D transparent;
+  transform-origin: 8px 14px;
+}
+.cchanger_5 .triangle:nth-child(1) {
+  transform: rotate(60deg);
+}
+.cchanger_5 .triangle:nth-child(2) {
+  transform: rotate(120deg);
+}
+.cchanger_5 .triangle:nth-child(3) {
+  transform: rotate(180deg);
+}
+.cchanger_5 .triangle:nth-child(4) {
+  transform: rotate(240deg);
+}
+.cchanger_5 .triangle:nth-child(5) {
+  transform: rotate(300deg);
+}
+
+
+.cchanger_6 {
+  height: 28px;
+  width: 32px;
+  position: relative;
+  margin: 0 auto;
+  transform-origin: 0 0;
+  transform: translateX(16px) rotate(30deg);
+}
+.cchanger_6 .triangle {
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 14px 8px 0;
+  border-color: #AAAAAA transparent;
+  transform-origin: 8px 14px;
+}
+.cchanger_6 .triangle:nth-child(1) {
+  transform: rotate(60deg);
+}
+.cchanger_6 .triangle:nth-child(2) {
+  transform: rotate(120deg);
+}
+.cchanger_6 .triangle:nth-child(3) {
+  transform: rotate(180deg);
+}
+.cchanger_6 .triangle:nth-child(4) {
+  transform: rotate(240deg);
+}
+.cchanger_6 .triangle:nth-child(5) {
   transform: rotate(300deg);
 }
