@@ -10,13 +10,8 @@ canvas.height = 480;
 document.body.appendChild(canvas);
 
 // Background image
-var bgImage = new Image();
-bgImage.src = "images/background.png";
-bgImage.onload = function () {
-    ctx.drawImage(bgImage, 0, 0);
-};
-
-var size = 21.95;
+document.body.style.backgroundImage="url('images/background4.png')";
+document.body.style.backgroundPosition="center center"
 
 // Key classes ---------------------------------------------------------------------
 
@@ -30,10 +25,8 @@ var Hex = function(id,direction,shade,position) {
     this.div = document.createElement("div");
     this.div.setAttribute("id", id);
     this.div.setAttribute("class", "hexagon_"+this.shade+"_"+this.direction);
-
     this.div.setAttribute("onclick", "move(this)");
     document.body.insertBefore(this.div, canvas);
-    
     for (i = 0; i<6; i++) {
         tmp = document.createElement("div");
         tmp.setAttribute("class", "triangle");
@@ -48,7 +41,6 @@ var Changer = function(id,direction,shade,position) {
     this.shade=shade;
     this.posx=position[0];
     this.posy=position[1];
-
     this.div = document.createElement("div");
     this.div.setAttribute("id", id);
     if (direction==null && shade!=null){this.div.setAttribute("class", "cchanger_"+this.shade);}
@@ -61,39 +53,40 @@ var Changer = function(id,direction,shade,position) {
     }
 }
 
+// Level class
+var Level = function(){
+    this.id = id;
+    this.changerArr = changerArr;
+    this.hexArr = hexArr;
+}
+
 // Generic functions ---------------------------------------------------------------
 
 // show function
 show = function(obj){
-    console.log(obj.id + " " + obj.posx + " " + obj.posy);
     document.getElementById(obj.id).style.position="fixed";
-    document.getElementById(obj.id).style.left=obj.posx + "px";
-    document.getElementById(obj.id).style.top=obj.posy + "px";
+    document.getElementById(obj.id).style.left=anchor_x+Math.sqrt(3)*obj.posx*size + "px";
+    document.getElementById(obj.id).style.top=anchor_y+obj.posy*size + "px";
 };
 
 // move function
 move = function(elm, dirn) {
     hex = hexArr[elm.id-1];
-    console.log(elm.id);
     direction = hex.direction;
     if (typeof dirn != 'undefined') {direction = dirn};
-    if (direction == 1)  { hex.posx -= Math.sqrt(3)*size; }
-    if (direction == 2)  { hex.posx -= Math.sqrt(3)*size/2; hex.posy -= 1.5*size; }
-    if (direction == 3)  { hex.posx += Math.sqrt(3)*size/2; hex.posy -= 1.5*size; }
-    if (direction == 4)  { hex.posx += Math.sqrt(3)*size; }
-    if (direction == 5)  { hex.posx += Math.sqrt(3)*size/2; hex.posy += 1.5*size; }
-    if (direction == 6)  { hex.posx -= Math.sqrt(3)*size/2; hex.posy += 1.5*size; }
-
+    if (direction == 1)  { hex.posx -= 1; }
+    if (direction == 2)  { hex.posx -= 0.5; hex.posy -= 1.5; }
+    if (direction == 3)  { hex.posx += 0.5; hex.posy -= 1.5; }
+    if (direction == 4)  { hex.posx += 1; }
+    if (direction == 5)  { hex.posx += 0.5; hex.posy += 1.5; }
+    if (direction == 6)  { hex.posx -= 0.5; hex.posy += 1.5; }
     push = null;
-    for (i = 0; i<hexarrayLength; i++) {
+    for (i = 0; i<hexArr.length; i++) {
         if (Math.abs(hexArr[i].posx - hex.posx)<0.1 && Math.abs(hexArr[i].posy - hex.posy)<0.1 && hexArr[i].id!=hex.id) {
-            push = hexArr[i]; break;   
-    }}
-    for (i = 0; i<changersLength; i++) {
+            push = hexArr[i]; break; }}
+    for (i = 0; i<changerArr.length; i++) {
         if (Math.abs(changerArr[i].posx - hex.posx)<0.1 && Math.abs(changerArr[i].posy - hex.posy)<0.1) {
-            update(hex, changerArr[i].direction, changerArr[i].shade); break;
-    }}
-
+            update(hex, changerArr[i].direction, changerArr[i].shade); break; }}
     show(hex);
     if (push) {move(push.div, direction);}
 };
@@ -105,32 +98,44 @@ update = function(hex, direction, shade) {
     document.getElementById(hex.id).className = "hexagon_"+hex.shade+"_"+hex.direction;
 };
 
+// resize all function
+resizeAll = function(){
+    console.log(3*Math.floor(window.innerHeight/(size*6))+1);
+    anchor_x = window.innerWidth/2 - 15.3;
+    anchor_y = 6+size*(3*Math.floor(window.innerHeight/(size*6))+1);
+    for (i = 0; i<changerArr.length; i++) {
+        show(changerArr[i]);}
+    for (i = 0; i<hexArr.length; i++) { 
+        show(hexArr[i]);}
+}
+
 // Initialize class arrays ---------------------------------------------------------
 
-var anchor_x = 165.5;
-var anchor_y = 162.5;
+var size = 41.65;
+var anchor_x = window.innerWidth/2 - 15.3;
+var anchor_y = 5.9+size*(3*Math.floor(window.innerHeight/(size*6))+1);
 
 // Initialize Changer array
 var changerArr = [];
-var dir1 = new Changer('d1',2,null,[anchor_x-2*Math.sqrt(3)*size,anchor_y]);
-var dir2 = new Changer('d2',4,null,[anchor_x,anchor_y-3*size]);
-var cc1 =new Changer('c1',null,4,[anchor_x-2.5*Math.sqrt(3)*size,anchor_y-1.5*size])
-var cc2 =new Changer('c2',null,5,[anchor_x+0.5*Math.sqrt(3)*size,anchor_y-1.5*size])
+var dir1 = new Changer('d1',2,null,[-2,0]);
+var dir2 = new Changer('d2',4,null,[0,-3]);
+var cc1 =new Changer('c1',null,4,[-2.5,-1.5])
+var cc2 =new Changer('c2',null,5,[0.5,-1.5])
 changerArr.push(dir1);
 changerArr.push(dir2);
 changerArr.push(cc1);
 changerArr.push(cc2);
-var changersLength = changerArr.length;
-for (i = 0; i<changersLength; i++) {show(changerArr[i]);}
 
 // Initialize Hex array
 var hexArr = [];
-var myhex1 = new Hex(1,1,1,[anchor_x+Math.sqrt(3)*size,anchor_y]);
-var myhex2 = new Hex(2,3,2,[anchor_x-Math.sqrt(3)*size,anchor_y+3*size]);
-var myhex3 = new Hex(3,4,3,[anchor_x-3*Math.sqrt(3)*size,anchor_y]);
+var myhex1 = new Hex(1,1,1,[0,0]);
+var myhex2 = new Hex(2,3,2,[-1,3]);
+var myhex3 = new Hex(3,4,3,[-3,0]);
 hexArr.push(myhex1);
 hexArr.push(myhex2);
 hexArr.push(myhex3);
-var hexarrayLength = hexArr.length;
-for (i = 0; i<hexarrayLength; i++) { show(hexArr[i]);}
+
+resizeAll();
+
+window.addEventListener('resize', resizeAll);
 
