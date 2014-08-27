@@ -18,39 +18,56 @@ document.body.style.backgroundPosition="center center"
 // Hex class
 var Hex = function(id,direction,shade,position) {
     this.id = id;
-    this.direction=direction;
-    this.shade=shade;
     this.posx=position[0];
     this.posy=position[1];
     this.div = document.createElement("div");
     this.div.setAttribute("id", id);
-    this.div.setAttribute("class", "hexagon_"+this.shade+"_"+this.direction);
+    this.div.setAttribute("class", "hexagon");
+	this.div.setAttribute("shade", "c"+shade);
     this.div.setAttribute("onclick", "move(this)");
     document.body.insertBefore(this.div, canvas);
-    for (i = 0; i<6; i++) {
-        tmp = document.createElement("div");
-        tmp.setAttribute("class", "triangle");
-        this.div.appendChild(tmp)
-    }
+	this.tri = document.createElement("div");
+	this.tri.setAttribute("class", "triangle");
+	this.tri.setAttribute("shade", "c"+shade);
+	this.tri.setAttribute("direction", "d"+direction);
+	this.div.appendChild(this.tri)
 }
 
 // Changer class
 var Changer = function(id,direction,shade,position) {
     this.id=id;
-    this.direction=direction;
-    this.shade=shade;
     this.posx=position[0];
     this.posy=position[1];
     this.div = document.createElement("div");
     this.div.setAttribute("id", id);
-    if (direction==null && shade!=null){this.div.setAttribute("class", "cchanger_"+this.shade);}
-    if (direction!=null && shade==null){this.div.setAttribute("class", "direction_"+this.direction);}
-    document.body.insertBefore(this.div, canvas);
-    for (i = 0; i<6; i++) {
-        tmp = document.createElement("div");
-        tmp.setAttribute("class", "triangle");
-        this.div.appendChild(tmp)
+	document.body.insertBefore(this.div, canvas);
+    if (direction==null && shade!=null){
+		this.div.setAttribute("class", "hexagon fill");
+		this.div.setAttribute("shade", "c"+shade);
+		this.tri = document.createElement("div");
+		this.tri.setAttribute("direction", "null");
+	}
+    if (direction!=null && shade==null){
+		this.div.setAttribute("class", "hexagon");
+		this.div.setAttribute("shade", "c7");
+		this.tri = document.createElement("div");
+		this.tri.setAttribute("class", "triangle");
+		this.tri.setAttribute("shade", "c7");
+		this.tri.setAttribute("direction","d"+direction);
+		this.div.appendChild(this.tri)
     }
+}
+
+// Target class
+var Target = function(id,shade,position) {
+    this.id = id;
+    this.posx=position[0];
+    this.posy=position[1];
+    this.div = document.createElement("div");
+    this.div.setAttribute("id", id);
+    this.div.setAttribute("class", "target");
+	this.div.setAttribute("shade", "c"+shade);
+    document.body.insertBefore(this.div, canvas);
 }
 
 // Level class
@@ -64,55 +81,62 @@ var Level = function(){
 
 // show function
 show = function(obj){
-    document.getElementById(obj.id).style.position="fixed";
-    document.getElementById(obj.id).style.left=anchor_x+Math.sqrt(3)*obj.posx*size + "px";
-    document.getElementById(obj.id).style.top=anchor_y+obj.posy*size + "px";
+	console.log(obj.id);
+	document.getElementById(obj.id).style.position="fixed";
+    document.getElementById(obj.id).style.left = anchor_x+Math.sqrt(3)*obj.posx*size + "px";
+    document.getElementById(obj.id).style.top = anchor_y+obj.posy*size + "px";
+	document.getElementById(obj.id).animation = "";
 };
 
 // move function
 move = function(elm, dirn) {
-    hex = hexArr[elm.id-1];
-    direction = hex.direction;
-    if (typeof dirn != 'undefined') {direction = dirn};
-    if (direction == 1)  { hex.posx -= 1; }
-    if (direction == 2)  { hex.posx -= 0.5; hex.posy -= 1.5; }
-    if (direction == 3)  { hex.posx += 0.5; hex.posy -= 1.5; }
-    if (direction == 4)  { hex.posx += 1; }
-    if (direction == 5)  { hex.posx += 0.5; hex.posy += 1.5; }
-    if (direction == 6)  { hex.posx -= 0.5; hex.posy += 1.5; }
+	hex = hexArr[elm.id-1];
+	console.log(hex.tri.getAttribute("direction"));
+    direction = hex.tri.getAttribute("direction");
+	if (typeof dirn != 'undefined') {direction = dirn};
+	hex.div.setAttribute("animate",direction);
+	show(hex);
+	if (direction == 'd1')  { hex.posx -= 1; }
+    if (direction == 'd2')  { hex.posx -= 0.5; hex.posy -= 1.5; }
+    if (direction == 'd3')  { hex.posx += 0.5; hex.posy -= 1.5; }
+    if (direction == 'd4')  { hex.posx += 1; }
+    if (direction == 'd5')  { hex.posx += 0.5; hex.posy += 1.5; }
+    if (direction == 'd6')  { hex.posx -= 0.5; hex.posy += 1.5; }
     push = null;
     for (i = 0; i<hexArr.length; i++) {
-        if (Math.abs(hexArr[i].posx - hex.posx)<0.1 && Math.abs(hexArr[i].posy - hex.posy)<0.1 && hexArr[i].id!=hex.id) {
+        if (hexArr[i].posx==hex.posx && hexArr[i].posy==hex.posy && hexArr[i].id!=hex.id) {
             push = hexArr[i]; break; }}
     for (i = 0; i<changerArr.length; i++) {
-        if (Math.abs(changerArr[i].posx - hex.posx)<0.1 && Math.abs(changerArr[i].posy - hex.posy)<0.1) {
-            update(hex, changerArr[i].direction, changerArr[i].shade); break; }}
-    show(hex);
-    if (push) {move(push.div, direction);}
+        if (changerArr[i].posx==hex.posx && changerArr[i].posy==hex.posy) {
+            update(hex, changerArr[i].tri.getAttribute("direction"), changerArr[i].div.getAttribute("shade")); break; }}
+	if (push) {move(push.div, direction);}
 };
 
 // update function
 update = function(hex, direction, shade) {
-    if (shade)        {hex.shade = shade};
-    if (direction)    {hex.direction = direction};
-    document.getElementById(hex.id).className = "hexagon_"+hex.shade+"_"+hex.direction;
+	if (shade && shade!='c7') {
+		hex.div.setAttribute("shade", shade)
+		hex.tri.setAttribute("shade", shade)};
+    if (direction!='null') {
+		hex.tri.setAttribute("direction", direction)};
 };
 
 // resize all function
 resizeAll = function(){
-    console.log(3*Math.floor(window.innerHeight/(size*6))+1);
-    anchor_x = window.innerWidth/2 - 15.3;
+    anchor_x = window.innerWidth/2 - 28;
     anchor_y = 6+size*(3*Math.floor(window.innerHeight/(size*6))+1);
     for (i = 0; i<changerArr.length; i++) {
         show(changerArr[i]);}
     for (i = 0; i<hexArr.length; i++) { 
         show(hexArr[i]);}
+	for (i = 0; i<tgtArr.length; i++) { 
+        show(tgtArr[i]);}
 }
 
 // Initialize class arrays ---------------------------------------------------------
 
 var size = 41.65;
-var anchor_x = window.innerWidth/2 - 15.3;
+var anchor_x = window.innerWidth/2 - 28;
 var anchor_y = 5.9+size*(3*Math.floor(window.innerHeight/(size*6))+1);
 
 // Initialize Changer array
@@ -126,6 +150,15 @@ changerArr.push(dir2);
 changerArr.push(cc1);
 changerArr.push(cc2);
 
+// Initialize Target array
+var tgtArr = [];
+var mytgt1 = new Target('t1',1,[0,3]);
+var mytgt2 = new Target('t2',2,[-2.5,1.5]);
+var mytgt3 = new Target('t3',3,[2,-3]);
+tgtArr.push(mytgt1);
+tgtArr.push(mytgt2);
+tgtArr.push(mytgt3);
+
 // Initialize Hex array
 var hexArr = [];
 var myhex1 = new Hex(1,1,1,[0,0]);
@@ -138,4 +171,3 @@ hexArr.push(myhex3);
 resizeAll();
 
 window.addEventListener('resize', resizeAll);
-
