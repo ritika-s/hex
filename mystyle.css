@@ -1,5 +1,5 @@
 /*.body{
-  background-image: url("images/bg.png");
+  background-image: url("images/hexbg.png");
   background-repeat: repeat-x repeat-y;
 }*/
 
@@ -37,6 +37,39 @@
 }
 .hexagon_1_1 .triangle:nth-child(1) {
   border-color: #aa2c0d transparent;
+}
+
+.rotator_1 {
+  height: 56px;
+  width: 64px;
+  position: relative;
+  margin: 0 auto;
+  transform-origin: 0 0;
+  transform: translateX(16px) rotate(30deg);
+}
+.rotator_1 .triangle {
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 28px 16px 0;
+  border-color: #F16745 transparent;
+  transform-origin: 16px 28px;
+}
+.rotator_1 .triangle:nth-child(1) {
+  transform: rotate(60deg);
+}
+.rotator_1 .triangle:nth-child(2) {
+  transform: rotate(120deg);
+}
+.rotator_1 .triangle:nth-child(3) {
+  transform: rotate(180deg);
+}
+.rotator_1 .triangle:nth-child(4) {
+  transform: rotate(240deg);
+}
+.rotator_1 .triangle:nth-child(5) {
+  transform: rotate(300deg);
 }
 
 .hexagon_1_2 {

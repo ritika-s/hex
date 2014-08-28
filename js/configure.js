@@ -10,7 +10,7 @@ canvas.height = 480;
 document.body.appendChild(canvas);
 
 // Background image
-document.body.style.backgroundImage="url('images/background4.png')";
+document.body.style.backgroundImage="url('images/hexbg2.png')";
 document.body.style.backgroundPosition="center center"
 
 // Key classes ---------------------------------------------------------------------
@@ -53,6 +53,36 @@ var Changer = function(id,direction,shade,position) {
     }
 }
 
+//Rotator class
+var Rotator =function(id,limit,position){
+    this.id=id;
+    this.limit=limit;
+    this.posx=position[0];
+    this.posy=position[1];
+
+    this.div = document.createElement("div");
+    this.div.setAttribute("id", id);
+    this.div.setAttribute("class", "rotator_"+this.limit);
+    
+    if (limit==1){
+        this.div.innerHTML = "1";};
+    if (limit==2){
+        this.div.innerHTML = "2";};
+    if (limit==-1){
+        this.div.innerHTML = "-1";};
+    if (limit==-2){
+        this.div.innerHTML = "-2";};
+    if (limit==0){
+        this.div.innerHTML = "0";};
+
+    document.body.insertBefore(this.div, canvas);
+    for (i = 0; i<6; i++) {
+        tmp = document.createElement("div");
+        tmp.setAttribute("class", "triangle");
+        this.div.appendChild(tmp)
+    }
+
+}
 // Level class
 var Level = function(){
     this.id = id;
@@ -87,6 +117,7 @@ move = function(elm, dirn) {
     for (i = 0; i<changerArr.length; i++) {
         if (Math.abs(changerArr[i].posx - hex.posx)<0.1 && Math.abs(changerArr[i].posy - hex.posy)<0.1) {
             update(hex, changerArr[i].direction, changerArr[i].shade); break; }}
+
     show(hex);
     if (push) {move(push.div, direction);}
 };
@@ -117,12 +148,15 @@ var anchor_y = 5.9+size*(3*Math.floor(window.innerHeight/(size*6))+1);
 
 // Initialize Changer array
 var changerArr = [];
-var dir1 = new Changer('d1',2,null,[-2,0]);
-var dir2 = new Changer('d2',4,null,[0,-3]);
+// var dir1 = new Changer('d1',2,null,[-2,0]);
+// var dir2 = new Changer('d2',4,null,[0,-3]);
+var r1 = new Changer('r1',1,[-2,0]);
+var r2 = new Changer('r2',2,[0,-3]);
+
 var cc1 =new Changer('c1',null,4,[-2.5,-1.5])
 var cc2 =new Changer('c2',null,5,[0.5,-1.5])
-changerArr.push(dir1);
-changerArr.push(dir2);
+changerArr.push(r1);
+changerArr.push(r2);
 changerArr.push(cc1);
 changerArr.push(cc2);
 
