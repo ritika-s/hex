@@ -101,9 +101,21 @@
 	background-size:15px 20px;
 }
 
-.fill[shade=c1]{ background-color: #F16745; }
+'.fill[shade=c1]{ background-color: #F16745; }
 .fill[shade=c2]{ background-color: #FFC65D; }
 .fill[shade=c3]{ background-color: #7BC8A4; }
 .fill[shade=c4]{ background-color: #4CC3D9; }
 .fill[shade=c5]{ background-color: #93648D; }
 .fill[shade=c6]{ background-color: #404040; }
+
+
+.level_button {
+  -webkit-clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+  width:56px;
+  height:64px;
+  opacity:0.8;
+  background-color:grey;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 64px;
+}

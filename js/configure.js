@@ -10,16 +10,17 @@ canvas.height = 480;
 document.body.appendChild(canvas);
 
 // Background image
-document.body.style.backgroundImage="url('images/hexbg2.png')";
+document.body.style.backgroundImage="url('images/background4.png')";
 document.body.style.backgroundPosition="center center"
 
 // Key classes ---------------------------------------------------------------------
 
 // Hex class
-var Hex = function(id,direction,shade,position) {
+var Hex = function(id,direction,shade,posx,posy) {
+    console.log('Hexing:::'+id+' '+direction+' '+shade+' '+posx+' '+posy);
     this.id = id;
-    this.posx=position[0];
-    this.posy=position[1];
+    this.posx=parseFloat(posx);
+    this.posy=parseFloat(posy);
     this.div = document.createElement("div");
     this.div.setAttribute("id", id);
     this.div.setAttribute("class", "hexagon");
@@ -34,20 +35,20 @@ var Hex = function(id,direction,shade,position) {
 }
 
 // Changer class
-var Changer = function(id,direction,shade,position) {
+var Changer = function(id,direction,shade,posx,posy) {
     this.id=id;
-    this.posx=position[0];
-    this.posy=position[1];
+    this.posx=parseFloat(posx);
+    this.posy=parseFloat(posy);
     this.div = document.createElement("div");
     this.div.setAttribute("id", id);
 	document.body.insertBefore(this.div, canvas);
-    if (direction==null && shade!=null){
+    if (direction=='null' && shade!='null'){
 		this.div.setAttribute("class", "hexagon fill");
 		this.div.setAttribute("shade", "c"+shade);
 		this.tri = document.createElement("div");
 		this.tri.setAttribute("direction", "null");
 	}
-    if (direction!=null && shade==null){
+    if (direction!='null' && shade=='null'){
 		this.div.setAttribute("class", "hexagon");
 		this.div.setAttribute("shade", "c7");
 		this.tri = document.createElement("div");
@@ -59,10 +60,10 @@ var Changer = function(id,direction,shade,position) {
 }
 
 // Target class
-var Target = function(id,shade,position) {
+var Target = function(id,shade,posx,posy) {
     this.id = id;
-    this.posx=position[0];
-    this.posy=position[1];
+    this.posx=parseFloat(posx);
+    this.posy=parseFloat(posy);
     this.div = document.createElement("div");
     this.div.setAttribute("id", id);
     this.div.setAttribute("class", "target");
@@ -98,17 +99,51 @@ var Rotator =function(id,limit,position){
         tmp.setAttribute("class", "triangle");
         this.div.appendChild(tmp)
     }
-
 }
 
 // Level class
-var Level = function(){
+var Level = function(id, position){
     this.id = id;
+    this.open = true;
+    this.posy=position[1];
+    this.div = document.createElement("div");
+    this.div.setAttribute("id", 'l'+id);
+    this.div.posx=position[0];
+    this.div.posy=position[1];
+    this.div.innerHTML=id;
+    this.div.setAttribute("class", "level_button");
+    this.div.setAttribute("onclick", "load(this)");
     this.changerArr = changerArr;
     this.hexArr = hexArr;
+    this.rotatorArr = rotatorArr;
+    this.targetArr = targetArr;
+    document.body.insertBefore(this.div, canvas);
 }
 
 // Generic functions ---------------------------------------------------------------
+
+// load function
+load = function(obj){
+    console.log(obj.id);
+    var level = levelArr[obj.id.slice(-1)-1];
+    var data = levels_data[obj.id.slice(-1)];
+    if (level.open){
+        changerArr = [];
+        for (i = 0; i<data.changers.length; i++) {
+            tmp = new Changer(data.changers[i][0],data.changers[i][1],data.changers[i][2],data.changers[i][3],data.changers[i][4]);
+            changerArr.push(tmp);}
+        targetArr = [];
+        for (i = 0; i<data.targets.length; i++) {
+            tmp = new Target(data.targets[i][0],data.targets[i][1],data.targets[i][2],data.targets[i][3]);
+            targetArr.push(tmp);}
+        hexArr = [];
+        for (i = 0; i<data.hexers.length; i++) {
+            tmp = new Hex(data.hexers[i][0],data.hexers[i][1],data.hexers[i][2],data.hexers[i][3],data.hexers[i][4]);
+            hexArr.push(tmp);}
+        rotatorArr = [];
+        resizeAll();
+    }
+}
 
 // show function
 show = function(obj){
@@ -160,8 +195,8 @@ resizeAll = function(){
         show(changerArr[i]);}
     for (i = 0; i<hexArr.length; i++) { 
         show(hexArr[i]);}
-	for (i = 0; i<tgtArr.length; i++) { 
-        show(tgtArr[i]);}
+	for (i = 0; i<targetArr.length; i++) { 
+        show(targetArr[i]);}
 }
 
 // Initialize class arrays ---------------------------------------------------------
@@ -170,37 +205,22 @@ var size = 41.65;
 var anchor_x = window.innerWidth/2 - 28;
 var anchor_y = 5.9+size*(3*Math.floor(window.innerHeight/(size*6))+1);
 
-// Initialize Changer array
+// Initialize arrays
 var changerArr = [];
-// var dir1 = new Changer('d1',2,null,[-2,0]);
-// var dir2 = new Changer('d2',4,null,[0,-3]);
-var r1 = new Changer('r1',1,[-2,0]);
-var r2 = new Changer('r2',2,[0,-3]);
-
-var cc1 =new Changer('c1',null,4,[-2.5,-1.5])
-var cc2 =new Changer('c2',null,5,[0.5,-1.5])
-changerArr.push(r1);
-changerArr.push(r2);
-changerArr.push(cc1);
-changerArr.push(cc2);
-
-// Initialize Target array
-var tgtArr = [];
-var mytgt1 = new Target('t1',1,[0,3]);
-var mytgt2 = new Target('t2',2,[-2.5,1.5]);
-var mytgt3 = new Target('t3',3,[2,-3]);
-tgtArr.push(mytgt1);
-tgtArr.push(mytgt2);
-tgtArr.push(mytgt3);
-
-// Initialize Hex array
+var targetArr = [];
 var hexArr = [];
-var myhex1 = new Hex(1,1,1,[0,0]);
-var myhex2 = new Hex(2,3,2,[-1,3]);
-var myhex3 = new Hex(3,4,3,[-3,0]);
-hexArr.push(myhex1);
-hexArr.push(myhex2);
-hexArr.push(myhex3);
+var rotatorArr = [];
+var targetArr = [];
+
+// Initialize levels
+var levelArr = [];
+var level1 = new Level(1,[-4,-6]);
+var level2 = new Level(2,[-3,-6]);
+levelArr.push(level1);
+levelArr.push(level2);
+
+show(level1.div);
+show(level2.div);
 
 resizeAll();
 
