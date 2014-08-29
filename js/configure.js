@@ -122,12 +122,35 @@ var Level = function(id, position){
 
 // Generic functions ---------------------------------------------------------------
 
+// functions to remove div tags
+Element.prototype.remove = function() {
+    this.parentElement.removeChild(this);
+}
+NodeList.prototype.remove = HTMLCollection.prototype.remove = function() {
+    for(var i = 0, len = this.length; i < len; i++) {
+        if(this[i] && this[i].parentElement) {
+            this[i].parentElement.removeChild(this[i]);
+        }
+    }
+}
+
+// clear html function
+clear = function(obj){
+    for (i = 0; i<hexArr.length; i++) {
+        document.getElementById(hexArr[i].div.id).remove();}
+    for (i = 0; i<changerArr.length; i++) {
+        document.getElementById(changerArr[i].div.id).remove();}
+    for (i = 0; i<targetArr.length; i++) {
+        document.getElementById(targetArr[i].div.id).remove();}
+}
+
 // load function
 load = function(obj){
     console.log(obj.id);
     var level = levelArr[obj.id.slice(-1)-1];
     var data = levels_data[obj.id.slice(-1)];
     if (level.open){
+    	clear();
         changerArr = [];
         for (i = 0; i<data.changers.length; i++) {
             tmp = new Changer(data.changers[i][0],data.changers[i][1],data.changers[i][2],data.changers[i][3],data.changers[i][4]);
