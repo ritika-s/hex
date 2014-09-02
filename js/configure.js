@@ -16,26 +16,25 @@ document.body.style.backgroundPosition="center center"
 // Key classes ---------------------------------------------------------------------
 
 // Hex class
-var Hex = function(id,direction,shade,posx,posy) {
-    console.log('Hexing:::'+id+' '+direction+' '+shade+' '+posx+' '+posy);
+var Hex = function(id,shade,direction,posx,posy) {
     this.id = id;
     this.posx=parseFloat(posx);
     this.posy=parseFloat(posy);
     this.div = document.createElement("div");
     this.div.setAttribute("id", id);
     this.div.setAttribute("class", "hexagon");
-	this.div.setAttribute("shade", "c"+shade);
+	this.div.setAttribute("shade", shade);
     this.div.setAttribute("onclick", "move(this)");
     document.body.insertBefore(this.div, canvas);
 	this.tri = document.createElement("div");
 	this.tri.setAttribute("class", "triangle");
-	this.tri.setAttribute("shade", "c"+shade);
-	this.tri.setAttribute("direction", "d"+direction);
+	this.tri.setAttribute("shade", shade);
+	this.tri.setAttribute("direction", direction);
 	this.div.appendChild(this.tri)
 }
 
 // Changer class
-var Changer = function(id,direction,shade,posx,posy) {
+var Changer = function(id,shade,direction,posx,posy) {
     this.id=id;
     this.posx=parseFloat(posx);
     this.posy=parseFloat(posy);
@@ -44,17 +43,18 @@ var Changer = function(id,direction,shade,posx,posy) {
 	document.body.insertBefore(this.div, canvas);
     if (direction=='null' && shade!='null'){
 		this.div.setAttribute("class", "hexagon fill");
-		this.div.setAttribute("shade", "c"+shade);
+		this.div.setAttribute("shade", shade);
 		this.tri = document.createElement("div");
 		this.tri.setAttribute("direction", "null");
 	}
     if (direction!='null' && shade=='null'){
 		this.div.setAttribute("class", "hexagon");
-		this.div.setAttribute("shade", "c7");
+		this.div.setAttribute("shade", "whi");
+		this.div.style.opacity = 1;
 		this.tri = document.createElement("div");
 		this.tri.setAttribute("class", "triangle");
-		this.tri.setAttribute("shade", "c7");
-		this.tri.setAttribute("direction","d"+direction);
+		this.tri.setAttribute("shade", "whi");
+		this.tri.setAttribute("direction", direction);
 		this.div.appendChild(this.tri)
     }
 }
@@ -67,7 +67,7 @@ var Target = function(id,shade,posx,posy) {
     this.div = document.createElement("div");
     this.div.setAttribute("id", id);
     this.div.setAttribute("class", "target");
-	this.div.setAttribute("shade", "c"+shade);
+	this.div.setAttribute("shade", shade);
     document.body.insertBefore(this.div, canvas);
 }
 
@@ -135,35 +135,43 @@ NodeList.prototype.remove = HTMLCollection.prototype.remove = function() {
 }
 
 // clear html function
-clear = function(obj){
-    for (i = 0; i<hexArr.length; i++) {
+clear = function(arrays){
+	for (i = 0; i<hexArr.length; i++) {
         document.getElementById(hexArr[i].div.id).remove();}
     for (i = 0; i<changerArr.length; i++) {
         document.getElementById(changerArr[i].div.id).remove();}
     for (i = 0; i<targetArr.length; i++) {
         document.getElementById(targetArr[i].div.id).remove();}
+	if (arrays != undefined){
+		hexArr = [];
+		changerArr = [];
+		targetArr = [];}
 }
 
 // load function
-load = function(obj){
-    console.log(obj.id);
-    var level = levelArr[obj.id.slice(-1)-1];
+load = function(obj, hidescreen){
+	if (hidescreen == undefined)
+		hideLevelScreen();
+	resetbutton.level = obj.id.slice(-1);
+	levelindicator.div.innerHTML = resetbutton.level;
+    console.log(resetbutton.level);
+	var level = levelArr[obj.id.slice(-1)-1];
     var data = levels_data[obj.id.slice(-1)];
     if (level.open){
         clear();
         changerArr = [];
-        for (i = 0; i<data.changers.length; i++) {
-            tmp = new Changer(data.changers[i][0],data.changers[i][1],data.changers[i][2],data.changers[i][3],data.changers[i][4]);
-            changerArr.push(tmp);}
+		if (data.changers != undefined) {
+			for (i = 0; i<data.changers.length; i++) {
+				tmp = new Changer('c'+(i+1),data.changers[i][0],data.changers[i][1],data.changers[i][2],data.changers[i][3]);
+				changerArr.push(tmp);}}
         targetArr = [];
         for (i = 0; i<data.targets.length; i++) {
-            tmp = new Target(data.targets[i][0],data.targets[i][1],data.targets[i][2],data.targets[i][3]);
+            tmp = new Target('t'+(i+1),data.targets[i][0],data.targets[i][1],data.targets[i][2]);
             targetArr.push(tmp);}
         hexArr = [];
         for (i = 0; i<data.hexers.length; i++) {
-            tmp = new Hex(data.hexers[i][0],data.hexers[i][1],data.hexers[i][2],data.hexers[i][3],data.hexers[i][4]);
+            tmp = new Hex(i+1,data.hexers[i][0],data.hexers[i][1],data.hexers[i][2],data.hexers[i][3]);
             hexArr.push(tmp);}
-        console.log(hexArr.length);
         rotatorArr = [];
         resizeAll();
     }
@@ -171,7 +179,6 @@ load = function(obj){
 
 // show function
 show = function(obj){
-	console.log(obj.id);
 	document.getElementById(obj.id).style.position="fixed";
     document.getElementById(obj.id).style.left = anchor_x+Math.sqrt(3)*obj.posx*size + "px";
     document.getElementById(obj.id).style.top = anchor_y+obj.posy*size + "px";
@@ -181,30 +188,30 @@ show = function(obj){
 // move function
 move = function(elm, dirn) {
 	hex = hexArr[elm.id-1];
-	console.log(hex.tri.getAttribute("direction"));
-    direction = hex.tri.getAttribute("direction");
+	direction = hex.tri.getAttribute("direction");
 	if (typeof dirn != 'undefined') {direction = dirn};
-	hex.div.setAttribute("animate",direction);
-	show(hex);
-	if (direction == 'd1')  { hex.posx -= 1; }
-    if (direction == 'd2')  { hex.posx -= 0.5; hex.posy -= 1.5; }
-    if (direction == 'd3')  { hex.posx += 0.5; hex.posy -= 1.5; }
-    if (direction == 'd4')  { hex.posx += 1; }
-    if (direction == 'd5')  { hex.posx += 0.5; hex.posy += 1.5; }
-    if (direction == 'd6')  { hex.posx -= 0.5; hex.posy += 1.5; }
-    push = null;
+	//hex.div.setAttribute("animate",direction);
+	//show(hex);
+	if (direction == 'lft')  { hex.posx -= 1; }
+    if (direction == 'tlft')  { hex.posx -= 0.5; hex.posy -= 1.5; }
+    if (direction == 'trgh')  { hex.posx += 0.5; hex.posy -= 1.5; }
+    if (direction == 'rgh')  { hex.posx += 1; }
+    if (direction == 'drgh')  { hex.posx += 0.5; hex.posy += 1.5; }
+    if (direction == 'dlft')  { hex.posx -= 0.5; hex.posy += 1.5; }
+	push = null;
     for (i = 0; i<hexArr.length; i++) {
         if (hexArr[i].posx==hex.posx && hexArr[i].posy==hex.posy && hexArr[i].id!=hex.id) {
             push = hexArr[i]; break; }}
     for (i = 0; i<changerArr.length; i++) {
         if (changerArr[i].posx==hex.posx && changerArr[i].posy==hex.posy) {
             update(hex, changerArr[i].tri.getAttribute("direction"), changerArr[i].div.getAttribute("shade")); break; }}
+	show(hex);
 	if (push) {move(push.div, direction);}
 };
 
 // update function
 update = function(hex, direction, shade) {
-	if (shade && shade!='c7') {
+	if (shade && shade!='whi') {
 		hex.div.setAttribute("shade", shade)
 		hex.tri.setAttribute("shade", shade)};
     if (direction!='null') {
@@ -223,6 +230,29 @@ resizeAll = function(){
         show(targetArr[i]);}
 }
 
+showLevelScreen = function() {
+	console.log('here');
+	if (lvlscreen.flag != true) {
+		clear(true);
+		lvlscreen.flag = true;
+		for (i = 0; i<levelArr.length; i++) {
+			levelArr[i].div.posx -= 1000;
+			show(levelArr[i].div);}}
+};
+
+hideLevelScreen = function() {
+	lvlscreen.flag = false;
+	for (i = 0; i<levelArr.length; i++) {
+		levelArr[i].div.posx += 1000;
+		show(levelArr[i].div);}
+};
+
+resetLevel = function() {
+	lvlscreen.flag = false;
+	if (resetbutton.level > 0)
+		load(document.getElementById('l'+resetbutton.level),false);
+}
+
 // Initialize class arrays ---------------------------------------------------------
 
 var size = 41.65;
@@ -238,14 +268,30 @@ var targetArr = [];
 
 // Initialize levels
 var levelArr = [];
-var level1 = new Level(1,[-4,-6]);
-var level2 = new Level(2,[-3,-6]);
-levelArr.push(level1);
-levelArr.push(level2);
+for (i = 0; i<Object.keys(levels_data).length; i++) {
+	tmp = new Level(i+1,[-4+i,-6]);
+	levelArr.push(tmp);
+	show(tmp.div);}
 
-show(level1.div);
-show(level2.div);
+// level screen button functionality
+lvlscreen = new Level('Levels',[7,-6]);
+lvlscreen.flag = false;
+lvlscreen.div.setAttribute("onclick", "showLevelScreen()");
+show(lvlscreen.div);
+hideLevelScreen();
+
+// reset level functionality
+resetbutton = new Level('&#x27f3',[7.5,-4.5]);
+resetbutton.level = 0;
+resetbutton.div.setAttribute("onclick", "resetLevel()");
+show(resetbutton.div);
+
+// level indicator
+levelindicator = new Level('0',[-7,-6]);
+levelindicator.div.setAttribute("onclick", "");
+levelindicator.div.setAttribute("shade", "whi");
+levelindicator.div.setAttribute("class", "level_indicator");
+show(levelindicator.div);
 
 resizeAll();
-
 window.addEventListener('resize', resizeAll);

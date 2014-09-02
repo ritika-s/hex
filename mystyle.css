@@ -6,35 +6,39 @@
   opacity:0.8;
 }
 
-.hexagon[shade=c1] { background-color: #F16745; }
-.hexagon[shade=c2] { background-color: #FFC65D; }
-.hexagon[shade=c3] { background-color: #7BC8A4; }
-.hexagon[shade=c4] { background-color: #4CC3D9; }
-.hexagon[shade=c5] { background-color: #93648D; }
-.hexagon[shade=c6] { background-color: #404040; }
-.hexagon[shade=c7] { background-color: #FFFFFF; }
+.hexagon:hover {
+  opacity:1;
+}
 
-.hexagon[animate=d1]{
+.hexagon[shade=red] { background-color: #F16745; }
+.hexagon[shade=ylo] { background-color: #FFC65D; }
+.hexagon[shade=grn] { background-color: #7BC8A4; }
+.hexagon[shade=blu] { background-color: #4CC3D9; }
+.hexagon[shade=ppl] { background-color: #93648D; }
+.hexagon[shade=blk] { background-color: #404040; }
+.hexagon[shade=whi] { background-color: #FFFFFF; }
+
+.hexagon[animate=lft]{
   position:relative;
   -webkit-animation: transition-d1 1s ease;
   -webkit-animation-fill-mode: forwards}
-.hexagon[animate=d2]{
+.hexagon[animate=tlft]{
   position:relative;
   -webkit-animation: transition-d2 1s ease;
   -webkit-animation-fill-mode: forwards}
-.hexagon[animate=d3]{
+.hexagon[animate=trgh]{
   position:relative;
   -webkit-animation: transition-d3 1s ease;
   -webkit-animation-fill-mode: forwards}
-.hexagon[animate=d4]{
+.hexagon[animate=rgh]{
   position:relative;
   -webkit-animation: transition-d4 1s ease;
   -webkit-animation-fill-mode: forwards}
-.hexagon[animate=d5]{
+.hexagon[animate=drgh]{
   position:relative;
   -webkit-animation: transition-d5 1s ease;
   -webkit-animation-fill-mode: forwards}
-.hexagon[animate=d6]{
+.hexagon[animate=dlft]{
   position:relative;
   -webkit-animation: transition-d6 1s ease;
   -webkit-animation-fill-mode: forwards}
@@ -63,35 +67,35 @@
   height:inherit;
 }
 
-.triangle[shade=c1] { background-color: #aa2c0d; }
-.triangle[shade=c2] { background-color: #dd8f00; }
-.triangle[shade=c3] { background-color: #3a8a64; }
-.triangle[shade=c4] { background-color: #1d7889; }
-.triangle[shade=c5] { background-color: #473044; }
-.triangle[shade=c6] { background-color: #6a6a6a; }
-.triangle[shade=c7] { background-color: #bfbfbf; }
+.triangle[shade=red] { background-color: #aa2c0d; }
+.triangle[shade=ylo] { background-color: #dd8f00; }
+.triangle[shade=grn] { background-color: #3a8a64; }
+.triangle[shade=blu] { background-color: #1d7889; }
+.triangle[shade=ppl] { background-color: #473044; }
+.triangle[shade=blk] { background-color: #6a6a6a; }
+.triangle[shade=whi] { background-color: #bfbfbf; }
 
-.triangle[direction=d1] { -webkit-clip-path: polygon(100% 25%, 50% 50%, 100% 75%); }
-.triangle[direction=d2] { -webkit-clip-path: polygon(50% 50%, 100% 75%, 50% 100%); }
-.triangle[direction=d3] { -webkit-clip-path: polygon(50% 50%, 50% 100%, 0% 75%); }
-.triangle[direction=d4] { -webkit-clip-path: polygon(50% 50%, 0% 75%, 0% 25%); }
-.triangle[direction=d5] { -webkit-clip-path: polygon(50% 50%, 50% 0%, 0% 25%); }
-.triangle[direction=d6] { -webkit-clip-path: polygon(50% 0%, 100% 25%, 50% 50%); }
+.triangle[direction=lft] { -webkit-clip-path: polygon(100% 25%, 50% 50%, 100% 75%); }
+.triangle[direction=tlft] { -webkit-clip-path: polygon(50% 50%, 100% 75%, 50% 100%); }
+.triangle[direction=trgh] { -webkit-clip-path: polygon(50% 50%, 50% 100%, 0% 75%); }
+.triangle[direction=rgh] { -webkit-clip-path: polygon(50% 50%, 0% 75%, 0% 25%); }
+.triangle[direction=drgh] { -webkit-clip-path: polygon(50% 50%, 50% 0%, 0% 25%); }
+.triangle[direction=dlft] { -webkit-clip-path: polygon(50% 0%, 100% 25%, 50% 50%); }
 
 
 .target {
 	border-radius: 50%;
 	width: 56px;
 	height: 56px; 
-	margin-top: 6px;
+	margin-top: 4px;
 }
 
-.target[shade=c1] { background:repeating-radial-gradient(#F16745, #F16745 5px, white 5px, white 10px); }
-.target[shade=c2] { background:repeating-radial-gradient(#FFC65D, #FFC65D 5px, white 5px, white 10px); }
-.target[shade=c3] { background:repeating-radial-gradient(#7BC8A4, #7BC8A4 5px, white 5px, white 10px); }
-.target[shade=c4] { background:repeating-radial-gradient(#4CC3D9, #4CC3D9 5px, white 5px, white 10px); }
-.target[shade=c5] { background:repeating-radial-gradient(#93648D, #93648D 5px, white 5px, white 10px); }
-.target[shade=c6] { background:repeating-radial-gradient(#404040, #404040 5px, white 5px, white 10px); }
+.target[shade=red] { background:repeating-radial-gradient(#F16745, #F16745 5px, white 5px, white 10px); }
+.target[shade=ylo] { background:repeating-radial-gradient(#FFC65D, #FFC65D 5px, white 5px, white 10px); }
+.target[shade=grn] { background:repeating-radial-gradient(#7BC8A4, #7BC8A4 5px, white 5px, white 10px); }
+.target[shade=blu] { background:repeating-radial-gradient(#4CC3D9, #4CC3D9 5px, white 5px, white 10px); }
+.target[shade=ppl] { background:repeating-radial-gradient(#93648D, #93648D 5px, white 5px, white 10px); }
+.target[shade=blk] { background:repeating-radial-gradient(#404040, #404040 5px, white 5px, white 10px); }
 
 
 .fill {
@@ -101,12 +105,12 @@
 	background-size:15px 20px;
 }
 
-'.fill[shade=c1]{ background-color: #F16745; }
-.fill[shade=c2]{ background-color: #FFC65D; }
-.fill[shade=c3]{ background-color: #7BC8A4; }
-.fill[shade=c4]{ background-color: #4CC3D9; }
-.fill[shade=c5]{ background-color: #93648D; }
-.fill[shade=c6]{ background-color: #404040; }
+.fill[shade=red]{ background-color: #F16745; }
+.fill[shade=ylo]{ background-color: #FFC65D; }
+.fill[shade=grn]{ background-color: #7BC8A4; }
+.fill[shade=blu]{ background-color: #4CC3D9; }
+.fill[shade=ppl]{ background-color: #93648D; }
+.fill[shade=blk]{ background-color: #404040; }
 
 
 .level_button {
@@ -115,6 +119,21 @@
   height:64px;
   opacity:0.8;
   background-color:grey;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 64px;
+}
+
+.level_button:hover{
+  background-color:white;
+}
+
+.level_indicator {
+  -webkit-clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+  width:56px;
+  height:64px;
+  opacity:0.8;
+  background-color:white;
   text-align: center;
   vertical-align: middle;
   line-height: 64px;
