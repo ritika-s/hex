@@ -10,7 +10,7 @@ canvas.height = 480;
 document.body.appendChild(canvas);
 
 // Background image
-document.body.style.backgroundImage="url('images/background4.png')";
+document.body.style.backgroundImage="url('images/hexbg3.png')";
 document.body.style.backgroundPosition="center center"
 
 // Key classes ---------------------------------------------------------------------
@@ -24,7 +24,7 @@ var Hex = function(id,shade,direction,posx,posy) {
     this.div.setAttribute("id", id);
     this.div.setAttribute("class", "hexagon");
 	this.div.setAttribute("shade", shade);
-    this.div.setAttribute("onclick", "move(this)");
+    this.div.setAttribute("onclick", "play('move');move(this)");
     document.body.insertBefore(this.div, canvas);
 	this.tri = document.createElement("div");
 	this.tri.setAttribute("class", "triangle");
@@ -193,6 +193,7 @@ isSolved = function(){
 			solved = false;
 			break}}
 	if (solved == true){
+		play('oh-yeah');
 		console.log('solved: '+resetbutton.level);
 		load(levelArr[resetbutton.level].div,false)}
 }
@@ -218,6 +219,7 @@ move = function(elm, dirn) {
         if (changerArr[i].posx==hex.posx && changerArr[i].posy==hex.posy) {
             update(hex, changerArr[i].tri.getAttribute("direction"), changerArr[i].div.getAttribute("shade")); break; }}
 	show(hex);
+	if (hex.posx == targetArr[elm.id-1].posx && hex.posy == targetArr[elm.id-1].posy) play('reach');
 	if (push) {move(push.div, direction);}
 	isSolved();
 };
@@ -233,8 +235,8 @@ update = function(hex, direction, shade) {
 
 // resize all function
 resizeAll = function(){
-    anchor_x = window.innerWidth/2 - 28;
-    anchor_y = 6+size*(3*Math.floor(window.innerHeight/(size*6))+1);
+	anchor_x = window.innerWidth/2 + 8;
+	anchor_y = -13+size*(3*Math.floor(window.innerHeight/(size*6))+1);
     for (i = 0; i<changerArr.length; i++) {
         show(changerArr[i]);}
     for (i = 0; i<hexArr.length; i++) { 
@@ -264,16 +266,26 @@ hideLevelScreen = function() {
 };
 
 resetLevel = function() {
-	lvlscreen.flag = false;
+	if (lvlscreen.flag) {
+		lvlscreen.flag = false;
+		hideLevelScreen()}
 	if (resetbutton.level > 0)
 		load(levelArr[resetbutton.level-1].div,false);
 }
 
+play = function(sound) {
+    var audio = document.getElementById(sound);
+    if (audio.paused) {
+        audio.play();
+    }else{
+        audio.currentTime = 0
+    }
+}
 // Initialize class arrays ---------------------------------------------------------
 
-var size = 41.65;
-var anchor_x = window.innerWidth/2 - 28;
-var anchor_y = 5.9+size*(3*Math.floor(window.innerHeight/(size*6))+1);
+var size = 41.6;
+var anchor_x = window.innerWidth/2 + 8;
+var anchor_y = -13+size*(3*Math.floor(window.innerHeight/(size*6))+1);
 
 // Initialize arrays
 var changerArr = [];
@@ -285,18 +297,18 @@ var targetArr = [];
 // Initialize levels
 var levelArr = [];
 for (i = 0; i<Object.keys(levels_data).length; i++) {
-	tmp = new Level(i+1,[-4+i,-6]);
+	tmp = new Level(i+1,[-5+i,-6]);
 	levelArr.push(tmp);
 	show(tmp.div);}
 
 // level screen button functionality
-lvlscreen = new Level('Levels',[7,-6]);
+lvlscreen = new Level('Levels',[6,-6]);
 lvlscreen.flag = false;
 lvlscreen.div.setAttribute("onclick", "showLevelScreen()");
 hideLevelScreen();
 
 // reset level functionality
-resetbutton = new Level('&#x27f3',[7.5,-4.5]);
+resetbutton = new Level('&#x27f3',[6.5,-4.5]);
 resetbutton.level = 0;
 resetbutton.div.setAttribute("onclick", "resetLevel()");
 
