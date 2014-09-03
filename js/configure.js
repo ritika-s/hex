@@ -154,7 +154,7 @@ load = function(obj, hidescreen){
 		hideLevelScreen();
 	resetbutton.level = obj.id.slice(-1);
 	levelindicator.div.innerHTML = resetbutton.level;
-    console.log(resetbutton.level);
+    //console.log(resetbutton.level);
 	var level = levelArr[obj.id.slice(-1)-1];
     var data = levels_data[obj.id.slice(-1)];
     if (level.open){
@@ -185,6 +185,18 @@ show = function(obj){
 	document.getElementById(obj.id).animation = "";
 };
 
+// isSolved function
+isSolved = function(){
+	solved = true;
+	for (i = 0; i<hexArr.length; i++){
+		if (hexArr[i].posx != targetArr[i].posx || hexArr[i].posy != targetArr[i].posy){
+			solved = false;
+			break}}
+	if (solved == true){
+		console.log('solved: '+resetbutton.level);
+		load(levelArr[resetbutton.level].div,false)}
+}
+
 // move function
 move = function(elm, dirn) {
 	hex = hexArr[elm.id-1];
@@ -207,6 +219,7 @@ move = function(elm, dirn) {
             update(hex, changerArr[i].tri.getAttribute("direction"), changerArr[i].div.getAttribute("shade")); break; }}
 	show(hex);
 	if (push) {move(push.div, direction);}
+	isSolved();
 };
 
 // update function
@@ -228,10 +241,13 @@ resizeAll = function(){
         show(hexArr[i]);}
 	for (i = 0; i<targetArr.length; i++) { 
         show(targetArr[i]);}
+	show(lvlscreen.div);
+	show(resetbutton.div);
+	show(levelindicator.div);
 }
 
 showLevelScreen = function() {
-	console.log('here');
+	//console.log('here');
 	if (lvlscreen.flag != true) {
 		clear(true);
 		lvlscreen.flag = true;
@@ -250,7 +266,7 @@ hideLevelScreen = function() {
 resetLevel = function() {
 	lvlscreen.flag = false;
 	if (resetbutton.level > 0)
-		load(document.getElementById('l'+resetbutton.level),false);
+		load(levelArr[resetbutton.level-1].div,false);
 }
 
 // Initialize class arrays ---------------------------------------------------------
@@ -277,21 +293,18 @@ for (i = 0; i<Object.keys(levels_data).length; i++) {
 lvlscreen = new Level('Levels',[7,-6]);
 lvlscreen.flag = false;
 lvlscreen.div.setAttribute("onclick", "showLevelScreen()");
-show(lvlscreen.div);
 hideLevelScreen();
 
 // reset level functionality
 resetbutton = new Level('&#x27f3',[7.5,-4.5]);
 resetbutton.level = 0;
 resetbutton.div.setAttribute("onclick", "resetLevel()");
-show(resetbutton.div);
 
 // level indicator
 levelindicator = new Level('0',[-7,-6]);
 levelindicator.div.setAttribute("onclick", "");
 levelindicator.div.setAttribute("shade", "whi");
 levelindicator.div.setAttribute("class", "level_indicator");
-show(levelindicator.div);
 
 resizeAll();
 window.addEventListener('resize', resizeAll);
